@@ -1,0 +1,11 @@
+repositories:
+  - url: "https://github.com/owner/repo1.git"
+    name: "repo1"
+    branch: "main"
+
+paths:
+  raw_dir: "data/raw"
+  zim_dir: "data/zim"
+  sqlite_path: "data/sqlite/docs.db"
+  vector_dir: "data/vectors"
+
