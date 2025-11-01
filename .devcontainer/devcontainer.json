@@ -3,7 +3,8 @@
 "build": {
   "dockerfile": "Dockerfile",
   "args": {
-    "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m"
+    "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m",
+    "_CONTAINER_BUILD_TMPFS_SIZE": "512m"
   }
 },
   "overrideFeatureInstallOrder": [
