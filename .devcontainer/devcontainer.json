@@ -1,28 +1,31 @@
 // .devcontainer/devcontainer.json
 {
-"build": {
-  "dockerfile": "Dockerfile",
-  "args": {
-    "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m",
-    "_CONTAINER_BUILD_TMPFS_SIZE": "512m"
-  }
-},
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m",
+      "_CONTAINER_BUILD_TMPFS_SIZE": "512m"
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/.env.local,target=/home/pn/.env,readonly,type=bind"
+  ],
+  // 2. make VS Code load it automatically
+  "remoteEnv": {
+    "MOONSHOT_API_KEY": "${localEnv:MOONSHOT_API_KEY}"
+  },
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers-contrib/features/zsh-plugins"
   ],
   "features": {
-    // Python 3.11 + pip + venv
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
-    },
     // Let the official common-utils feature install zsh + oh-my-zsh
-    //    for the remoteUser (node in your case).
+    //    for the remoteUser.
     "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
+      "installZsh": false,
       "installOhMyZsh": true,
       "upgradePackages": true,
-      "username": "node" // same as remoteUser below
+      "username": "pn" // same as remoteUser below
     },
     /* 2.  (Optional) add syntax-highlighting, auto-suggestions, etc. */
     "ghcr.io/devcontainers-extra/features/zsh-plugins": {
@@ -31,8 +34,12 @@
     }
   },
 
-  "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--tmpfs",
-  "/tmp:exec,mode=1777"],
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW",
+    "--tmpfs",
+    "/tmp:exec,mode=1777"
+  ],
 
   "customizations": {
     "vscode": {
@@ -64,11 +71,11 @@
     }
   },
 
-  "remoteUser": "node",
+  "remoteUser": "pn",
   "containerEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
-    "CLAUDE_CONFIG_DIR": "/home/node/.claude"
+    "CLAUDE_CONFIG_DIR": "/home/pn/.claude"
   },
   /* create the Claude directory so the extension never complains */
-  "postCreateCommand": "python -m pip install --upgrade pip 'black>=24.0' && mkdir -p ${HOME}/.claude"
+  "postCreateCommand": "python -m pip install --upgrade pip python-dotenv 'black>=24.0' && mkdir -p ${HOME}/.claude"
 }
