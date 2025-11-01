@@ -1,6 +1,10 @@
 // .devcontainer/devcontainer.json
 {
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22","build": {
+  "args": {
+    "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m"
+  }
+},
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers-contrib/features/zsh-plugins"
