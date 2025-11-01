@@ -1,6 +1,7 @@
 // .devcontainer/devcontainer.json
 {
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22","build": {
+"build": {
+  "dockerfile": "Dockerfile",
   "args": {
     "_DEV_CONTAINERS_BUILD_TMPFS_SIZE": "256m"
   }
