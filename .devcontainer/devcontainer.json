@@ -31,7 +31,8 @@
     }
   },
 
-  "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW"],
+  "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--tmpfs",
+  "/tmp:exec,mode=1777"],
 
   "customizations": {
     "vscode": {
