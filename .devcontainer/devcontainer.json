@@ -67,5 +67,5 @@
     "CLAUDE_CONFIG_DIR": "/home/node/.claude"
   },
   /* create the Claude directory so the extension never complains */
-  "postCreateCommand": "mkdir -p ${HOME}/.claude"
+  "postCreateCommand": "python -m pip install --upgrade pip 'black>=24.0' && mkdir -p ${HOME}/.claude"
 }
