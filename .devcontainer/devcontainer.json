@@ -1,10 +1,10 @@
 // .devcontainer/devcontainer.json
 {
-"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22",
   "overrideFeatureInstallOrder": [
-  "ghcr.io/devcontainers/features/common-utils",
-  "ghcr.io/devcontainers-contrib/features/zsh-plugins"
-],
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers-contrib/features/zsh-plugins"
+  ],
   "features": {
     // Python 3.11 + pip + venv
     "ghcr.io/devcontainers/features/python:1": {
@@ -16,15 +16,15 @@
       "installZsh": true,
       "installOhMyZsh": true,
       "upgradePackages": true,
-      "username": "node"   // same as remoteUser below
+      "username": "node" // same as remoteUser below
     },
-        /* 2.  (Optional) add syntax-highlighting, auto-suggestions, etc. */
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+    /* 2.  (Optional) add syntax-highlighting, auto-suggestions, etc. */
+    "ghcr.io/devcontainers-extra/features/zsh-plugins": {
       "plugins": "git zsh-autosuggestions zsh-syntax-highlighting",
       "omzTemplates": "true"
     }
   },
-  
+
   "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW"],
 
   "customizations": {
@@ -39,9 +39,13 @@
       "settings": {
         "editor.formatOnSave": true,
         "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-"[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-"[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-"[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
         "[python]": {
           "editor.defaultFormatter": "ms-python.black-formatter"
         },
@@ -55,9 +59,9 @@
 
   "remoteUser": "node",
   "containerEnv": {
-  "NODE_OPTIONS": "--max-old-space-size=4096",
-  "CLAUDE_CONFIG_DIR": "/home/node/.claude"
-},
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    "CLAUDE_CONFIG_DIR": "/home/node/.claude"
+  },
   /* create the Claude directory so the extension never complains */
   "postCreateCommand": "mkdir -p ${HOME}/.claude"
 }
