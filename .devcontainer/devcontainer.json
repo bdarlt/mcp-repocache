@@ -1,29 +1,30 @@
 // .devcontainer/devcontainer.json
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-
-  /* 1.  Let the official common-utils feature install zsh + oh-my-zsh
-        for the remoteUser (node in your case). */
+"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22",
+  "overrideFeatureInstallOrder": [
+  "ghcr.io/devcontainers/features/common-utils",
+  "ghcr.io/devcontainers-contrib/features/zsh-plugins"
+],
   "features": {
+    // Python 3.11 + pip + venv
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    // Let the official common-utils feature install zsh + oh-my-zsh
+    //    for the remoteUser (node in your case).
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": true,
       "installOhMyZsh": true,
       "upgradePackages": true,
       "username": "node"   // same as remoteUser below
     },
-
-    /* 2.  (Optional) add syntax-highlighting, auto-suggestions, etc. */
+        /* 2.  (Optional) add syntax-highlighting, auto-suggestions, etc. */
     "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
       "plugins": "git zsh-autosuggestions zsh-syntax-highlighting",
       "omzTemplates": "true"
-    },
-
-    /* 3.  Only keep Python/Node features if you need a newer version
-           than the universal image already provides. */
-    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
-    "ghcr.io/devcontainers/features/node:1":     { "version": "lts" }
+    }
   },
-
+  
   "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW"],
 
   "customizations": {
@@ -37,9 +38,10 @@
       ],
       "settings": {
         "editor.formatOnSave": true,
-        "[javascript][typescript][javascriptreact][typescriptreact]": {
-          "editor.defaultFormatter": "esbenp.prettier-vscode"
-        },
+        "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+"[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+"[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+"[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
         "[python]": {
           "editor.defaultFormatter": "ms-python.black-formatter"
         },
@@ -53,10 +55,9 @@
 
   "remoteUser": "node",
   "containerEnv": {
-    "NODE_OPTIONS": "--max-old-space-size=4096",
-    "CLAUDE_CONFIG_DIR": "${HOME}/.claude"
-  },
-
+  "NODE_OPTIONS": "--max-old-space-size=4096",
+  "CLAUDE_CONFIG_DIR": "/home/node/.claude"
+},
   /* create the Claude directory so the extension never complains */
   "postCreateCommand": "mkdir -p ${HOME}/.claude"
 }
