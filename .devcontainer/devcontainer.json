@@ -75,7 +75,5 @@
   "containerEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CLAUDE_CONFIG_DIR": "/home/pn/.claude"
-  },
-  /* create the Claude directory so the extension never complains */
-  "postCreateCommand": "python -m pip install --upgrade pip python-dotenv 'black>=24.0' && mkdir -p ${HOME}/.claude"
+  }
 }

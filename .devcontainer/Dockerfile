@@ -26,13 +26,15 @@ RUN apk add --no-cache \
     # usual dev helpers
     bash zsh git curl vim nano jq procps \
     gcc musl-dev libffi-dev openssl-dev make \
+    black lsb-release-minimal hexdump \
     tar xz unzip gnupg sudo \
     pipx && \
     addgroup -g ${USER_GID} ${USERNAME} && \
     adduser -D -u ${USER_UID} -G ${USERNAME} -s /bin/zsh ${USERNAME} && \
     install -d -o ${USERNAME} -g ${USERNAME} \
     "${PIPX_HOME}" "${PIPX_BIN_DIR}" \
-     /home/${USERNAME}/.local/share/man && \
+     /home/${USERNAME}/.local/share/man \
+     /home/${USERNAME}/.claude && \
     # corepack isn't in alpine. and we don't need it. just install pnpm directly
     npm install -g pnpm@latest && \
     pnpm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
