@@ -1,82 +1,52 @@
+# ---- build-time knobs -------------------------------------------------
+ARG ALPINE_VERSION=3.22
+
+
+FROM alpine:${ALPINE_VERSION}
+
+# ---- re-declare args so they are visible below FROM -------------------
+ARG USERNAME=pn
+ARG USER_UID=1000
+ARG USER_GID=1000
 ARG PYTHON_VERSION=3.12
-ARG LINUX_VERSION=alpine3.22
-ARG NODE_VERSION=24.11.0
+ARG NODE_MAJOR=22
 ARG CLAUDE_CODE_VERSION=latest
 
-FROM python:${PYTHON_VERSION}-${LINUX_VERSION}
-
-# Set shell and environment
-SHELL ["/bin/sh", "-euo", "pipefail", "-c"]
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=off
-
-
-# Install system dependencies for Python
+# ---- Python + Node + everyday dev tools in one shot -------------------
 RUN apk add --no-cache \
-    bash \
-    zsh \
-    curl \
-    gnupg \
-    tar \
-    xz \
-    git \
-    gcc \
-    delta \
-    fzf \
-    unzip \
-    gh \
-    iptables \
-    ipset \
-    iproute2 \
-    dnsutils \
-    aggregate \
-    jq \
-    nano \
-    vim \
-    procps \
-    musl-dev \
-    libffi-dev \
-    openssl-dev \
-    pipx \
-    make \
-    && pipx install poetry==2.1.4
+    # python
+    python3~=${PYTHON_VERSION} py3-pip \
+    # node
+    nodejs~=${NODE_MAJOR} npm \
+    # usual dev helpers
+    bash zsh git curl vim nano jq procps \
+    gcc musl-dev libffi-dev openssl-dev make \
+    tar xz unzip gnupg sudo \
+    pipx && \
+    pipx install poetry==2.1.4 && \
+    pipx install pipenv && \
+    pipx install uv && \
+    pipx install python-dotenv
 
-# Create a non-root user
-RUN addgroup -g 1000 pn && \
-    adduser -D -u 1000 -G pn -s /bin/zsh pn
+# ---- corepack → pnpm --------------------------------------------------
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install Node.js 24 from official binary (Alpine-compatible)
-RUN ARCH="x64" && \
-    curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH}-musl.tar.xz" && \
-    curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt.asc" && \
-    gpg --keyserver hkps://keys.openpgp.org --recv-keys 94AE36675C464D64BAFA68DD7434390BDBE9B9C5 && \
-    gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc && \
-    grep " node-v${NODE_VERSION}-linux-${ARCH}-musl.tar.xz\$" SHASUMS256.txt | sha256sum -c - && \
-    tar -xJf "node-v${NODE_VERSION}-linux-${ARCH}-musl.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && \
-    rm "node-v${NODE_VERSION}-linux-${ARCH}-musl.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt && \
-    ln -s /usr/local/bin/node /usr/local/bin/nodejs
+# ---- non-root user ----------------------------------------------------
+RUN addgroup -g ${USER_GID} ${USERNAME} && \
+    adduser -D -u ${USER_UID} -G ${USERNAME} -s /bin/zsh ${USERNAME}
 
-# Enable pnpm via Corepack
-RUN corepack enable && \
-    corepack prepare pnpm@latest --activate
-
-# Install Python tools (Poetry, pipenv, uv)
-RUN pip install pipenv uv python-dotenv && \
-    rm -rf /root/.cache/pip
-
-# Install Claude
+# ---- claude-code ------------------------------------------------------
 RUN pnpm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
-
-# Copy and set up firewall script
+# ---- firewall helper (kept from your original) ------------------------
 COPY init-firewall.sh /usr/local/bin/
-USER root
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "pn ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/pn-firewall && \
-  chmod 0440 /etc/sudoers.d/pn-firewall && \
-  rm -rf /tmp/* /var/tmp/* /usr/local/lib/node_modules/npm/cache
+    echo "${USERNAME} ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" \
+         > /etc/sudoers.d/${USERNAME}-firewall && \
+    chmod 0440 /etc/sudoers.d/${USERNAME}-firewall
 
+# ---- tidy up & switch user -------------------------------------------
+RUN rm -rf /tmp/* /var/tmp/* /root/.cache
 
-# Switch to non-root user
-USER pn
-WORKDIR /home/pn
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
