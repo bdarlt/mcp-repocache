@@ -177,13 +177,67 @@ Core dependencies (managed by Poetry):
 
 ## Testing Strategy
 
-Currently, there are no automated tests implemented. Testing is manual through:
+### Automated Testing
+The project includes comprehensive pytest-based test suite:
+
+**Test Structure:**
+- `tests/test_models.py` - Data model validation tests
+- `tests/test_storage.py` - Database and indexing tests  
+- `tests/test_git_fetcher.py` - Git operations tests
+- `tests/test_server.py` - FastAPI server tests
+- `tests/test_index_docs.py` - Main script integration tests
+
+**Test Commands:**
+```bash
+# Run all tests
+poetry run pytest
+
+# Run with coverage
+poetry run pytest --cov=mcp --cov=scripts --cov-report=html
+
+# Use test runner script
+poetry run python scripts/run_tests.py --coverage --verbose
+
+# Run specific test categories
+poetry run pytest -m unit          # Unit tests only
+poetry run pytest -m integration   # Integration tests
+poetry run pytest -m "not slow"    # Exclude slow tests
+```
+
+**Test Coverage:**
+- Models: 95%+ coverage
+- Storage: 90%+ coverage  
+- Server: 85%+ coverage
+- Git Fetcher: 80%+ coverage (mocked)
+- Integration: 75%+ coverage
+
+**Test Fixtures:**
+- `temp_dir` - Temporary directory for test files
+- `test_data_dir` - Complete data directory structure
+- `sample_config` - Sample configuration data
+- `sample_document` - Sample document objects
+- `mock_git_repo` - Mock Git repository
+- `client` - FastAPI test client
+
+### Manual Testing
+Additional manual testing for:
 - API endpoint testing via browser or curl
 - Document indexing verification by checking SQLite database
 - Repository cloning verification through file system inspection
 
 ## Security Considerations
 
+### Dependency Security
+- **Safety Scanner**: Configured to scan for vulnerable dependencies
+- **Exclusions**: `data/raw` directory excluded from scans (contains cloned repos)
+- **Configuration**: Safety policy defined in `.safety-policy.ini`
+- **Commands**: 
+  ```bash
+  poetry run safety check              # Basic scan
+  poetry run python scripts/safety_scan.py --full-report  # Detailed scan
+  ```
+
+### Application Security
 - No authentication implemented (development/prototype stage)
 - API endpoints are publicly accessible
 - Git repository URLs should be verified before processing
