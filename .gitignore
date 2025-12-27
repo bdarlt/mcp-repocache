@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Out local synchronization directory for database and raw `git clone/pull`
+data/
+
 # C extensions
 *.so
 
