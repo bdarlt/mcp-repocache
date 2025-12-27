@@ -1,0 +1,8 @@
+[MASTER]
+load-plugins=pylint.extensions.docparams
+
+[MESSAGES CONTROL]
+disable=
+    missing-docstring,
+    too-few-public-methods
+

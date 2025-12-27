@@ -1,0 +1,8 @@
+# .bandit.yml
+tests:
+  - B101  # assert_used
+  - B311  # random
+  - B404  # subprocess
+  - B608  # hardcoded_sql_expressions
+skips:
+  - B101  # Allow asserts in tests
