@@ -1,7 +1,10 @@
 repositories:
-  - url: "https://github.com/owner/repo1.git"
-    name: "repo1"
+  - url: "https://github.com/openzim/zimit"
+    name: "zimit"
     branch: "main"
+  - url: https://github.com/openzim/python-libzim
+    name: openZime
+    branch: main
 
 paths:
   raw_dir: "data/raw"
