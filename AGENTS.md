@@ -230,11 +230,11 @@ Additional manual testing for:
 ### Dependency Security
 - **Safety Scanner**: Configured to scan for vulnerable dependencies
 - **Exclusions**: `data/raw` directory excluded from scans (contains cloned repos)
-- **Configuration**: Safety policy defined in `.safety-policy.ini`
+- **Configuration**: Safety policy defined in `.safety-policy.yml`
 - **Commands**: 
   ```bash
-  poetry run safety check              # Basic scan
-  poetry run python scripts/safety_scan.py --full-report  # Detailed scan
+  poetry run safety scan                           # Basic scan
+  poetry run safety scan --full-report            # Detailed scan
   ```
 
 ### Application Security

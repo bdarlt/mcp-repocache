@@ -36,23 +36,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 index-docs = "scripts.index_docs:main"
-run-server = "scripts.run_server:main"
+run-server = "scripts/run_server.py"
 test = "pytest"
 test-cov = "pytest --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
-safety-check = "safety check"
-safety-review = "safety check --output text"
 
 [tool.safety]
-# Safety configuration for dependency vulnerability scanning
-exclude = [
-    "data/raw/*",
-    "data/raw",
-    ".git/*",
-    ".venv/*",
-    "__pycache__/*",
-    "*.pyc"
-]
-output = "text"
-continue-on-error = true
-cache-expires = 3600
-max-age = 24
+# Safety configuration for dependency vulnerability scanning (YAML format preferred)
+# Main configuration is in .safety-policy.yml
+# This section provides fallback configuration for compatibility
