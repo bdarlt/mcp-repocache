@@ -62,6 +62,11 @@ def main():
         action="store_true",
         help="Generate HTML coverage report"
     )
+    parser.add_argument(
+        "--fix-pathlib",
+        action="store_true",
+        help="Work around Python 3.13 pathlib bug by disabling cache"
+    )
     
     args = parser.parse_args()
     
@@ -94,6 +99,11 @@ def main():
         cmd.append(args.test_path)
     else:
         cmd.append("tests/")
+
+    # Add Python 3.13 pathlib workaround if requested
+    if args.fix_pathlib:
+        cmd.extend(["-p", "no:cacheprovider"])
+        print("🐍 Applying Python 3.13 pathlib workaround (disabling cache)")
     
     # Show test configuration
     print("🧪 MCP Repository Cache Test Runner")
@@ -101,6 +111,7 @@ def main():
     print(f"Test directory: {Path('tests').absolute()}")
     print(f"Coverage: {'Enabled' if args.coverage and not args.no_cov else 'Disabled'}")
     print(f"Verbose: {'Enabled' if args.verbose else 'Disabled'}")
+    print(f"Python 3.13 workaround: {'Enabled' if args.fix_pathlib else 'Disabled'}")
     if args.markers:
         print(f"Markers: {args.markers}")
     if args.test_path:

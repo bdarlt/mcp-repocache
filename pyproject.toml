@@ -44,3 +44,16 @@ test-cov = "pytest --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
 # Safety configuration for dependency vulnerability scanning (YAML format preferred)
 # Main configuration is in .safety-policy.yml
 # This section provides fallback configuration for compatibility
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --strict-markers --disable-warnings --color=yes --durations=10 --ignore=data/raw --ignore=data/zim --ignore=data/sqlite --ignore=data/vectors"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests", 
+    "slow: Slow tests",
+    "git: Tests that require git operations"
+]

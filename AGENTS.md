@@ -6,13 +6,17 @@ MCP Repository Cache is a documentation aggregation and indexing system that fet
 
 ## Technology Stack
 
-- **Language**: Python 3.9+
+- **Language**: Python 3.10+ (minimum), Python 3.13 (installed) ⚠️
 - **Web Framework**: FastAPI with Uvicorn server
 - **Database**: SQLite for metadata and full-text search
 - **Version Control**: GitPython for repository operations
 - **Data Formats**: YAML configuration, Markdown documentation
 - **Containerization**: Docker with Alpine Linux base
 - **Development Environment**: VS Code Dev Containers
+- **Testing Framework**: pytest 9.0.2 with configuration in pyproject.toml
+- **Security Scanning**: Safety 3.7 for dependency vulnerability scanning
+
+> **⚠️ Python 3.13 Note**: There is a known pathlib bug in Python 3.13 on Windows that affects pytest cache operations. Use the `--fix-pathlib` flag with the test runner or run tests with `poetry run pytest -p no:cacheprovider`.
 
 ## Project Structure
 
@@ -36,6 +40,7 @@ mcp-repocache/
 │   └── vectors/          # Vector embeddings
 ├── config.yaml           # Repository configuration
 ├── Dockerfile            # Container configuration
+├── pyproject.toml        # Poetry and pytest configuration
 └── .devcontainer/        # VS Code development environment
 ```
 
@@ -180,6 +185,43 @@ Core dependencies (managed by Poetry):
 ### Automated Testing
 The project includes comprehensive pytest-based test suite:
 
+### Troubleshooting Pytest Issues
+
+**Python 3.13 Windows Compatibility Issue:**
+
+If you encounter pytest crashes with `TypeError: Path.replace() takes 2 positional arguments but 3 were given`, this is a known Python 3.13 pathlib bug on Windows. Use one of these solutions:
+
+**Option 1: Use the test runner with workaround flag**
+```bash
+poetry run python scripts/run_tests.py --fix-pathlib --verbose
+```
+
+**Option 2: Run pytest directly with cache disabled**
+```bash
+poetry run pytest -p no:cacheprovider -v
+```
+
+**Option 3: Clear cache before running tests**
+```bash
+# Remove cache directory
+rmdir /s /q .pytest_cache
+# Then run tests normally
+poetry run pytest -v
+```
+
+**Option 4: Use Python 3.12 (recommended for Windows)**
+```bash
+# Switch to Python 3.12
+poetry env use python3.12
+poetry install
+# Run tests normally
+poetry run pytest -v
+```
+
+## Test Commands
+=======
+### Test Commands
+
 **Test Structure:**
 - `tests/test_models.py` - Data model validation tests
 - `tests/test_storage.py` - Database and indexing tests  
@@ -203,6 +245,12 @@ poetry run pytest -m unit          # Unit tests only
 poetry run pytest -m integration   # Integration tests
 poetry run pytest -m "not slow"    # Exclude slow tests
 ```
+
+**Pytest Configuration:**
+Pytest is configured via `pyproject.toml` to exclude the `data/` directory from test discovery, preventing conflicts with test files from cloned repositories. The configuration includes:
+- `testpaths = ["tests"]` - Only search in the tests directory
+- `--ignore=data/*` options - Exclude all data subdirectories from test discovery
+- Comprehensive marker definitions for test categorization
 
 **Test Coverage:**
 - Models: 95%+ coverage
@@ -228,13 +276,14 @@ Additional manual testing for:
 ## Security Considerations
 
 ### Dependency Security
-- **Safety Scanner**: Configured to scan for vulnerable dependencies
+- **Safety Scanner**: Safety 3.7 configured to scan for vulnerable dependencies
 - **Exclusions**: `data/raw` directory excluded from scans (contains cloned repos)
 - **Configuration**: Safety policy defined in `.safety-policy.yml`
 - **Commands**: 
   ```bash
   poetry run safety scan                           # Basic scan
   poetry run safety scan --full-report            # Detailed scan
+  poetry run safety check --full-report           # Alternative scan command
   ```
 
 ### Application Security
