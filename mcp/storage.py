@@ -1,7 +1,8 @@
 import sqlite3
-import os
 from typing import List
+
 from .models import Document
+
 
 def setup_db(db_path: str):
     """Initialize the SQLite database."""
@@ -21,6 +22,7 @@ def setup_db(db_path: str):
     conn.commit()
     conn.close()
 
+
 def index_docs(docs: List[Document], zim_dir: str, db_path: str):
     """Store documents in Zim and SQLite."""
     setup_db(db_path)
@@ -29,10 +31,9 @@ def index_docs(docs: List[Document], zim_dir: str, db_path: str):
 
     for doc in docs:
         cursor.execute(
-            "INSERT INTO docs (repo, path, content) VALUES (?, ?, ?)",
-            (doc.repo, doc.path, doc.content),
+            "INSERT INTO docs (repo, path, content, version) VALUES (?, ?, ?, ?)",
+            (doc.repo, doc.path, doc.content, doc.version),
         )
 
     conn.commit()
     conn.close()
-
