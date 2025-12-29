@@ -8,7 +8,15 @@ app = FastAPI()
 
 @app.get("/docs", response_model=List[Document])
 def get_docs(repo: str = None):
-    db_path = os.path.join(os.path.dirname(__file__), "../../data/sqlite/docs.db")
+    # More robust path construction using multiple join steps
+    db_path = os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "..",
+        "data",
+        "sqlite",
+        "docs.db"
+    )
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
