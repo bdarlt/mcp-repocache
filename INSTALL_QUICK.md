@@ -1,25 +1,31 @@
-# Quick Installation
+# Quick Installation Guide
 
-## One-Line Installation
+## 🎯 One-Line Setup
 
 ```bash
 pip install fastapi uvicorn[standard] gitpython pydantic pyyaml
 ```
 
-## Using Poetry (Recommended)
+## 🐍 Using Poetry (Recommended)
 
 ```bash
-# Install Poetry first
+# Install Poetry
 pip install poetry
 
 # Install dependencies
 poetry install
 ```
 
-## Verify Installation
+## ✅ Verify Installation
 
 ```bash
-python -c "import fastapi, uvicorn, git, pydantic, yaml; print('All modules installed successfully!')"
+python -c "import fastapi, uvicorn, git, pydantic, yaml; print('✅ All modules ready!')"
 ```
 
-That's it! Now you can run the synchronization and server scripts.
+## 🚀 Next Steps
+
+1. Configure repositories in `config.yaml`
+2. Run indexing: `poetry run python scripts/index_docs.py`
+3. Start server: `poetry run python scripts/run_server.py`
+
+**That's it!** Now you can access the API at `http://localhost:8000/docs`

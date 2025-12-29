@@ -39,7 +39,7 @@ a high-level overview and all essential information for users and contributors.
    * Specify the project’s license (e.g., MIT, GPL, Apache).
    * Example:
 
-    ```plain
+    ```text
     This project is licensed under the MIT License - see the LICENSE file for details.
     ```
 
@@ -50,9 +50,9 @@ a high-level overview and all essential information for users and contributors.
    * Outline future plans or milestones.
    * Example
    
-    ```Markdown
-    - [ ] Feature 1 (Q1 2024)
-    - [ ] Feature 2 (Q2 2024)
+    ```markdown
+    * [ ] Feature 1 (Q1 2024)
+    * [ ] Feature 2 (Q2 2024)
     ```
     
 10. FAQ (Optional)
