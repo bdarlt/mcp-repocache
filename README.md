@@ -134,6 +134,35 @@ poetry run pytest --cov=mcp --cov-report=html
 poetry run pytest -p no:cacheprovider
 ```
 
+## 🗺️ Roadmap
+
+### 🚧 Upcoming Features
+
+#### Enum-Based Version System (High Priority)
+- **Status**: Planned for next implementation
+- **Tasks**:
+  - Create `VersionType` enum with clear version semantics
+  - Update Document model to use enum-based versions
+  - Make database schema NOT NULL with default 'latest'
+  - Add comprehensive tests for version handling
+  - Update git fetcher for proper edge case handling
+- **Benefits**: Robust version management, better error handling, type safety
+
+#### Database Schema Improvements
+- **Status**: In progress
+- **Tasks**:
+  - Make version field NOT NULL with proper default
+  - Add version validation constraints
+  - Improve schema documentation
+- **Benefits**: Data integrity, better query performance
+
+### 🎯 Future Enhancements
+
+- **Semantic Search**: Vector embeddings and FAISS integration
+- **Authentication**: API key and OAuth support
+- **Advanced Querying**: Full-text search improvements
+- **Performance**: Caching and optimization
+
 ## 🔒 Security
 
 - Dependency scanning with Safety 3.7
