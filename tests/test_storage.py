@@ -4,9 +4,7 @@ Tests for MCP storage module.
 
 import os
 import sqlite3
-from pathlib import Path
-
-import pytest
+#from pathlib import Path
 
 from mcp.models import Document
 from mcp.storage import index_docs, setup_db

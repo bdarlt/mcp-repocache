@@ -136,20 +136,40 @@ def validate_version(version: str | None) -> str:
     # Semantic version pattern: vX.Y.Z or X.Y.Z where X,Y,Z are numbers
     import re
 
-    semantic_pattern = r"^(v?\d+\.\d+\.\d+)(?:-.+)?$"
+    # Be strict: exactly 3 version numbers, optional pre-release suffix
+    semantic_pattern = r"^(v?\d+\.\d+\.\d+)(?:-[a-zA-Z0-9._-]+)?$"
+
+    # Additional check: must have exactly 3 version components (not 2, not 4)
+    version_parts = version.lstrip("v").split(".")
+    if len(version_parts) != 3:
+        # Wrong number of version components
+        logger.warning(
+            f"Invalid version format: '{version}'. Expected exactly 3 version components. Using default: '{VersionType.LATEST.value}'"
+        )
+        return VersionType.LATEST.value
+
     if re.match(semantic_pattern, version):
         return version
 
-    # Check if it's a reasonable git tag/ref
-    # Git tag pattern: alphanumeric with common separators
-    git_tag_pattern = r"^[a-zA-Z0-9][a-zA-Z0-9._-]*$"
+    # Check if it's a reasonable git tag/ref (but not a semantic version)
+    # Git tag pattern: alphanumeric with common separators, but not X.Y or X.Y.Z format
+    # Exclude versions that look like semantic versions but are incomplete
+    # Git tag/branch pattern: alphanumeric with common separators including forward slashes
+    git_tag_pattern = r"^[a-zA-Z0-9][a-zA-Z0-9._/-]*$"
+
+    # Exclude X.Y format (incomplete semantic version)
+    incomplete_semver_pattern = r"^\d+\.\d+$"
+    if re.match(incomplete_semver_pattern, version):
+        # This looks like an incomplete semantic version, treat as invalid
+        logger.warning(
+            f"Invalid version format: '{version}'. Looks like incomplete semantic version. Using default: '{VersionType.LATEST.value}'"
+        )
+        return VersionType.LATEST.value
+
     if re.match(git_tag_pattern, version):
         return version
 
     # If version doesn't match any pattern, log warning and use default
-    import logging
-
-    logger = logging.getLogger(__name__)
     logger.warning(
         f"Invalid version format: '{version}'. Using default: '{VersionType.LATEST.value}'"
     )

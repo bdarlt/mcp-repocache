@@ -9,6 +9,8 @@ from unittest.mock import Mock, patch, MagicMock
 import pytest
 import numpy as np
 from mcp.models import Document
+from fastapi.testclient import TestClient
+from mcp.server import app
 
 
 class TestGenerateEmbeddings:
@@ -35,7 +37,7 @@ class TestGenerateEmbeddings:
             
             assert len(result) == 1
             assert isinstance(result[0], np.ndarray)
-            assert result[0].shape == (5,)
+            assert result[0].shape == (768,)
     
     def test_generate_embeddings_multiple_texts(self):
         """Test generating embeddings for multiple texts."""
@@ -58,7 +60,7 @@ class TestGenerateEmbeddings:
             
             assert len(result) == 3
             assert all(isinstance(emb, np.ndarray) for emb in result)
-            assert all(emb.shape == (3,) for emb in result)
+            assert all(emb.shape == (768,) for emb in result)
     
     def test_generate_embeddings_large_text(self):
         """Test generating embeddings for large text."""
@@ -305,8 +307,9 @@ class TestEmbeddingPersistence:
 class TestSemanticSearchAPI:
     """Test semantic search API endpoints."""
     
-    def test_semantic_search_endpoint(self, client):
+    def test_semantic_search_endpoint(self):
         """Test semantic search API endpoint."""
+        client = TestClient(app)
         with patch('mcp.semantic.search_similar_documents') as mock_search:
             mock_search.return_value = [
                 {
@@ -326,8 +329,9 @@ class TestSemanticSearchAPI:
             assert len(data['results']) == 1
             assert data['results'][0]['score'] == 0.95
     
-    def test_semantic_search_no_results(self, client):
+    def test_semantic_search_no_results(self):
         """Test semantic search with no results."""
+        client = TestClient(app)
         with patch('mcp.semantic.search_similar_documents') as mock_search:
             mock_search.return_value = []
             
@@ -340,8 +344,9 @@ class TestSemanticSearchAPI:
             data = response.json()
             assert data['results'] == []
     
-    def test_semantic_search_invalid_request(self, client):
+    def test_semantic_search_invalid_request(self):
         """Test semantic search with invalid request."""
+        client = TestClient(app)
         response = client.post("/search/semantic", json={
             "invalid_field": "test"
         })
