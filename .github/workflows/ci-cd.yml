@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -12,60 +12,60 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install Poetry
-      run: pip install poetry
+      - name: Install Poetry
+        run: pip install poetry
 
-    - name: Install dependencies
-      run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-    - name: Run tests
-      run: poetry run pytest -v --tb=short
+      - name: Run tests
+        run: poetry run pytest -v --tb=short
 
-    - name: Run tests with coverage
-      run: poetry run pytest --cov=mcp --cov=scripts --cov-report=xml
+      - name: Run tests with coverage
+        run: poetry run pytest --cov=mcp --cov=scripts --cov-report=xml
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        fail_ci_if_error: false
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: false
 
   lint:
     name: Lint and Type Check
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install Poetry
-      run: pip install poetry
+      - name: Install Poetry
+        run: pip install poetry
 
-    - name: Install dependencies
-      run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-    - name: Run linting
-      run: poetry run pylint mcp scripts
+      - name: Run linting
+        run: poetry run pylint mcp scripts
 
-    - name: Run type checking
-      run: poetry run mypy mcp scripts
+      - name: Run type checking
+        run: poetry run mypy mcp scripts
 
-    - name: Run safety check
-      run: poetry run safety check --full-report
+      - name: Run safety check
+        run: poetry run safety check --full-report
 
   build:
     name: Build Docker Image
@@ -73,57 +73,87 @@ jobs:
     needs: [test, lint]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Login to Docker Hub
-      if: github.event_name != 'pull_request'
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mcp-repocache:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mcp-repocache:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+          queries: security-extended,security-and-quality
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:python"
 
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install Poetry
-      run: pip install poetry
+      - name: Install Poetry
+        run: pip install poetry
 
-    - name: Install dependencies
-      run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-    - name: Run Bandit security scanner
-      run: poetry run bandit -r mcp scripts -f json -o bandit-results.json
+      - name: Run Bandit security scanner
+        run: poetry run bandit -r mcp scripts -f json -o bandit-results.json
 
-    - name: Run Safety dependency scanner
-      run: poetry run safety check --full-report --json > safety-results.json
+      - name: Run Safety dependency scanner
+        run: poetry run safety check --full-report --json > safety-results.json
 
-    - name: Upload security scan results
-      uses: actions/upload-artifact@v4
-      with:
-        name: security-scan-results
-        path: |
-          bandit-results.json
-          safety-results.json
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scan-results
+          path: |
+            bandit-results.json
+            safety-results.json

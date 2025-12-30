@@ -12,12 +12,19 @@ This directory contains GitHub Actions workflows for continuous integration, del
 - **Test**: Runs pytest with coverage and uploads results to Codecov
 - **Lint**: Runs pylint, mypy, and safety checks
 - **Build**: Builds and pushes Docker image to Docker Hub (on main branch only)
+- **CodeQL Analysis**: Advanced code analysis using GitHub's CodeQL engine
 - **Security Scan**: Runs Bandit and Safety security scanners
 
 **Secrets Required:**
 - `CODECOV_TOKEN`: For uploading coverage reports
 - `DOCKER_HUB_USERNAME`: Docker Hub username
 - `DOCKER_HUB_TOKEN`: Docker Hub access token
+
+**CodeQL Features:**
+- Advanced static analysis for Python code
+- Security vulnerability detection
+- Code quality analysis
+- Integrated with GitHub security alerts
 
 ### 2. Scheduled Security Scan (`security-scan.yml`)
 
