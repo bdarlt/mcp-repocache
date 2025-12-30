@@ -107,6 +107,7 @@ All workflows integrate seamlessly with existing project tools:
 - **pytest**: Test execution with coverage
 - **pylint/mypy**: Code quality checks
 - **bandit/safety**: Security scanning
+- **CodeQL**: Advanced static analysis by GitHub
 - **Docker**: Container building and deployment
 
 ## Best Practices Implemented
