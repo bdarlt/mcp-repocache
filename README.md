@@ -248,6 +248,31 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 - **Webhook integration** - Automatic re-indexing on repository updates
 - **Advanced analytics** - Usage statistics and search patterns
 - **Export/Import functionality** - Data migration and backup capabilities
+- **MCP via stdio** - Alternative stdio-based interface for direct integration
+
+### 🔧 Architectural Considerations
+
+#### REST API vs. Stdio Interface
+
+**Current Approach**: REST API with FastAPI
+- ✅ **Pros**: Web-standard, language-agnostic, easy to integrate
+- ❌ **Cons**: Network overhead, requires HTTP server
+
+**Alternative Approach**: Stdio-based interface
+- ✅ **Pros**: Direct integration, no network overhead, better for scripting
+- ❌ **Cons**: Language-specific, harder to integrate with web services
+
+**Use Cases for Stdio**:
+- CLI tool integration
+- Scripting and automation
+- Direct process communication
+- Embedded system usage
+
+**Implementation Considerations**:
+- Protocol design (JSON, protobuf, custom format)
+- Error handling and exit codes
+- Input/output streaming
+- Compatibility with existing API
 
 ---
 
