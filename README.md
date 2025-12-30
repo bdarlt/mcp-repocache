@@ -240,6 +240,7 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 - [ ] **CI/CD pipeline enhancement** - Push Docker images to GitHub Container Registry
 - [ ] **GitHub Actions optimization** - Evaluate workflow structure (monolithic vs. modular)
 - [ ] **README badges** - Add CI/CD status, coverage, and quality badges
+- [ ] **MCP via stdio** - Alternative stdio-based interface instead of REST API
 
 ### 🎯 Future Enhancements
 
