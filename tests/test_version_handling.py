@@ -86,8 +86,8 @@ class TestVersionHandling:
             version = determine_version(repo_path, "/local/path/to/repo")
             assert version == VersionType.LOCAL.value
 
-    def test_main_branch_no_tags_version(self):
-        """Test version detection for main branch without tags"""
+    def test_main_branch_no_tags_version_category(self):
+        """Test version category detection for main branch without tags"""
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_path = os.path.join(tmpdir, "main_branch_repo")
 
