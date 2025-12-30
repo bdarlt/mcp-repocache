@@ -1,7 +1,7 @@
 import sqlite3
 from typing import List
 
-from .models import Document
+from .models import Document, VersionType
 
 
 def setup_db(db_path: str):
@@ -15,7 +15,8 @@ def setup_db(db_path: str):
             repo TEXT NOT NULL,
             path TEXT NOT NULL,
             content TEXT NOT NULL,
-            version TEXT DEFAULT 'latest'
+            version TEXT DEFAULT 'latest',
+            version_category TEXT DEFAULT 'latest'
         )
         """
     )
@@ -30,9 +31,17 @@ def index_docs(docs: List[Document], zim_dir: str, db_path: str):
     cursor = conn.cursor()
 
     for doc in docs:
+        # Determine version category (this could be moved to a helper function)
+        version_category = doc.version
+        if doc.version in [vt.value for vt in VersionType]:
+            version_category = doc.version
+        else:
+            # If it's a specific version/tag, use 'latest' as the category
+            version_category = VersionType.LATEST.value
+
         cursor.execute(
-            "INSERT INTO docs (repo, path, content, version) VALUES (?, ?, ?, ?)",
-            (doc.repo, doc.path, doc.content, doc.version),
+            "INSERT INTO docs (repo, path, content, version, version_category) VALUES (?, ?, ?, ?, ?)",
+            (doc.repo, doc.path, doc.content, doc.version, version_category),
         )
 
     conn.commit()
