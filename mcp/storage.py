@@ -110,7 +110,7 @@ def index_docs(docs: List[Document], zim_dir: str, db_path: str):
     conn.close()
 
 
-def validate_version(version: str) -> str:
+def validate_version(version: str | None) -> str:
     """
     Validate version string and ensure it's either a VersionType enum value or semantic version.
 

@@ -2,7 +2,9 @@
 
 **Centralized Documentation Indexing and Search System**
 
-MCP Repository Cache fetches documentation from multiple Git repositories, stores it locally, and provides both traditional and semantic search capabilities through a REST API.
+MCP Repository Cache fetches documentation from multiple Git repositories, stores
+it locally, and provides both traditional and semantic search capabilities through
+a REST API.
 
 ## 🚀 Quick Start
 
