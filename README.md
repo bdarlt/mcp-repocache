@@ -35,6 +35,7 @@ poetry run python scripts/run_server.py
 - Python 3.10+ (3.13 recommended)
 - Poetry (for dependency management)
 - Git
+- Docker (for containerized deployment)
 
 ### Setup
 ```bash
@@ -48,6 +49,17 @@ poetry install
 # Create data directories
 mkdir -p data/raw data/zim data/sqlite data/vectors
 ```
+
+### GitHub Actions CI/CD
+
+This project includes comprehensive GitHub Actions workflows for:
+
+- **Continuous Integration**: Automated testing on push and pull requests
+- **Continuous Delivery**: Docker image building and deployment
+- **Security Scanning**: Regular vulnerability scans
+- **Documentation**: Automated documentation building
+
+See `.github/workflows/` for detailed workflow configurations.
 
 ## 📝 Configuration
 

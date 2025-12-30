@@ -1,0 +1,64 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+jobs:
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Poetry
+      run: pip install poetry
+
+    - name: Install dependencies
+      run: poetry install
+
+    - name: Build documentation
+      run: |
+        # Add your documentation build commands here
+        # For example, if using MkDocs:
+        # poetry run mkdocs build
+        echo "Documentation build process would go here"
+        echo "For now, just verifying docs directory exists"
+        ls -la docs/
+
+    - name: Upload documentation artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: docs/
+
+  # Uncomment this job when you have a documentation deployment target
+  # deploy-docs:
+  #   name: Deploy Documentation
+  #   runs-on: ubuntu-latest
+  #   needs: build-docs
+  #
+  #   steps:
+  #   - name: Download documentation artifacts
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: documentation
+  #       path: docs/
+  #
+  #   - name: Deploy to GitHub Pages
+  #     uses: peaceiris/actions-gh-pages@v3
+  #     with:
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       publish_dir: ./docs
