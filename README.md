@@ -6,6 +6,21 @@ MCP Repository Cache fetches documentation from multiple Git repositories, store
 it locally, and provides both traditional and semantic search capabilities through
 a REST API.
 
+## 🏆 Project Status
+
+<!-- Badges will be added here once CI/CD is fully configured -->
+<!-- Example badge format: -->
+<!-- [![CI/CD Status](https://github.com/your-org/mcp-repocache/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-org/mcp-repocache/actions/workflows/ci-cd.yml) -->
+<!-- [![Code Coverage](https://codecov.io/gh/your-org/mcp-repocache/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/mcp-repocache) -->
+<!-- [![Code Quality](https://img.shields.io/lgtm/grade/python/g/your-org/mcp-repocache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/your-org/mcp-repocache/context:python) -->
+
+**TODO**: Add badges for:
+- CI/CD pipeline status
+- Test coverage (Codecov)
+- Code quality (CodeQL, pylint)
+- Docker image status
+- License information
+
 ## 🚀 Quick Start
 
 ```bash
@@ -222,6 +237,9 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 - [ ] **Authentication and authorization** - API key and OAuth support
 - [ ] **Performance optimization** - Caching and query optimization
 - [ ] **Monitoring and metrics** - Prometheus integration and health checks
+- [ ] **CI/CD pipeline enhancement** - Push Docker images to GitHub Container Registry
+- [ ] **GitHub Actions optimization** - Evaluate workflow structure (monolithic vs. modular)
+- [ ] **README badges** - Add CI/CD status, coverage, and quality badges
 
 ### 🎯 Future Enhancements
 

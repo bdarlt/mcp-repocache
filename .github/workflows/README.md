@@ -100,6 +100,64 @@ This directory contains GitHub Actions workflows for continuous integration, del
 - **Use artifacts**: Store build outputs and reports as artifacts
 - **Monitor costs**: Be aware of GitHub Actions usage limits and costs
 
+## Workflow Structure Considerations
+
+### Current Approach: Monolithic CI/CD Workflow
+
+The current implementation uses a single `ci-cd.yml` workflow with multiple jobs:
+- ✅ **Pros**: Simple to manage, clear dependencies between jobs
+- ❌ **Cons**: All jobs fail together, harder to reuse individual components
+
+### Alternative Approach: Modular Workflows
+
+Consider splitting into smaller, focused workflows:
+- `test.yml`: Testing only
+- `lint.yml`: Code quality checks only  
+- `build.yml`: Docker building only
+- `security.yml`: Security scanning only
+
+**Benefits of Modular Approach**:
+- ✅ Independent execution and failure
+- ✅ Easier to trigger specific workflows
+- ✅ Better reusability across branches
+- ✅ Clearer separation of concerns
+
+**Trade-offs**:
+- ⚠️ More complex dependency management
+- ⚠️ Potential for workflow duplication
+- ⚠️ Harder to coordinate between workflows
+
+### Recommendation
+
+Start with the current monolithic approach, then refactor to modular workflows when:
+1. Workflows become too complex to manage
+2. Need for independent job execution arises
+3. Specific workflows need different trigger conditions
+4. Reusability requirements emerge
+
+## GitHub Container Registry Integration
+
+### Current State
+
+- ✅ Docker image building working
+- ✅ Docker Hub deployment configured
+- ❌ GitHub Container Registry not yet implemented
+
+### Migration Plan
+
+1. **Add GHCR secrets**: `GHCR_USERNAME` and `GHCR_TOKEN`
+2. **Update build job**: Add GHCR login and push steps
+3. **Multi-registry push**: Push to both Docker Hub and GHCR
+4. **Cleanup**: Remove Docker Hub if GHCR is preferred
+
+### Benefits of GHCR
+
+- ✅ Tight GitHub integration
+- ✅ Free for public repositories
+- ✅ Better security with GitHub permissions
+- ✅ Automatic cleanup policies
+- ✅ Package visibility in GitHub interface
+
 ## Troubleshooting
 
 ### Common issues
