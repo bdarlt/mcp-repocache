@@ -10,7 +10,9 @@ a REST API.
 
 <!-- Badges will be added here once CI/CD is fully configured -->
 <!-- Example badge format: -->
-<!-- [![CI/CD Status](https://github.com/your-org/mcp-repocache/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-org/mcp-repocache/actions/workflows/ci-cd.yml) -->
+
+[![Bandit](https://github.com/bdarlt/mcp-repocache/actions/workflows/bandit.yml/badge.svg)](https://github.com/d/bdarlt/mcp-repocache/actions/workflows/bandit.yml)
+[![Pyre](https://github.com/bdarlt/mcp-repocache/actions/workflows/pyre.yml/badge.svg)](https://github.com/bdarlt/mcp-repocache/actions/workflows/pyre.yml)
 <!-- [![Code Coverage](https://codecov.io/gh/your-org/mcp-repocache/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/mcp-repocache) -->
 <!-- [![Code Quality](https://img.shields.io/lgtm/grade/python/g/your-org/mcp-repocache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/your-org/mcp-repocache/context:python) -->
 

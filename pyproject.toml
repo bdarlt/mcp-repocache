@@ -1,10 +1,21 @@
-[tool.poetry]
+[project]
 name = "mcp-repocache"
 version = "0.1.0"
 description = "MCP Repository Cache - Documentation aggregation and indexing system"
-authors = ["Your Name <your.email@example.com>"]
+authors = [
+    { name = "Bradley Arlt", email = "bdarlt@gmail.com" },
+]
 readme = "README.md"
 packages = [{include = "mcp"}]
+license = "BSD-3-Clause"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[project.scripts]
+index-docs = "scripts.index_docs:main"
+run-server = "scripts.run_server:main"
+test = "pytest"
+test-cov = "pytest --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -34,12 +45,6 @@ pytest-benchmark = "^5.2.3"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.scripts]
-index-docs = "scripts.index_docs:main"
-run-server = "scripts/run_server.py"
-test = "pytest"
-test-cov = "pytest --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
-
 [tool.safety]
 # Safety configuration for dependency vulnerability scanning (YAML format preferred)
 # Main configuration is in .safety-policy.yml
@@ -53,7 +58,10 @@ python_functions = ["test_*"]
 addopts = "-v --tb=short --strict-markers --disable-warnings --color=yes --durations=10 --ignore=data/raw --ignore=data/zim --ignore=data/sqlite --ignore=data/vectors"
 markers = [
     "unit: Unit tests",
-    "integration: Integration tests", 
+    "integration: Integration tests",
     "slow: Slow tests",
     "git: Tests that require git operations"
 ]
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.9"

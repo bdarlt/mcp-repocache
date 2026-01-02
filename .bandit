@@ -1,5 +1,6 @@
 # FILE: .bandit
 [bandit]
-exclude = tests
+targets = mcp,scripts
+exclude = tests,data/*,.github/*,.git/*,.venv,.benchmarks/*,.claude,.pytest_cache,.devcontainer
 tests = B201,B301
 skips = B101,B601
