@@ -25,6 +25,11 @@ on:
 permissions:
   contents: read
 
+env:
+  REPO_DIR: .
+  REQUIREMENTS_PATH: requirements.txt
+
+
 jobs:
   pyre:
     permissions:
