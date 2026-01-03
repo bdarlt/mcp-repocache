@@ -40,7 +40,8 @@ poetry run python scripts/run_server.py
 
 ## 📦 Features
 
-- ✅ **Multi-repository indexing**: Fetch and cache documentation from multiple Git repos
+- ✅ **Multi-repository indexing**: Fetch and cache documentation from
+multiple Git repos
 - ✅ **Full-text search**: SQLite-based keyword search across all documents
 - ✅ **REST API**: FastAPI server for programmatic access
 - ✅ **Containerized**: Docker-ready with volume support for persistent storage
@@ -49,12 +50,14 @@ poetry run python scripts/run_server.py
 ## 🔧 Installation
 
 ### Prerequisites
+
 - Python 3.10+ (3.13 recommended)
 - Poetry (for dependency management)
 - Git
 - Docker (for containerized deployment)
 
 ### Setup
+
 ```bash
 # Clone this repository
 git clone https://github.com/your-org/mcp-repocache.git
@@ -101,16 +104,19 @@ paths:
 ## 🎯 Usage
 
 ### Index Documents
+
 ```bash
 poetry run python scripts/index_docs.py
 ```
 
 ### Start Server
+
 ```bash
 poetry run python scripts/run_server.py
 ```
 
 ### API Endpoints
+
 - **GET `/docs`** - List all documents
 - **GET `/docs?repo=<name>`** - Filter by repository
 - **GET `/docs/<id>`** - Get specific document
@@ -128,18 +134,20 @@ docker run -p 8000:8000 -v $(pwd)/data:/data mcp-repocache
 ## 🔍 Search Capabilities
 
 ### Traditional Search
+
 - SQLite full-text search
 - Keyword-based filtering
 - Repository-specific queries
 
 ### Future: Semantic Search
+
 - Vector embeddings (placeholder)
 - FAISS integration (planned)
 - Context-aware results
 
 ## 📂 Project Structure
 
-```
+```text
 mcp-repocache/
 ├── mcp/                    # Core modules
 │   ├── git_fetcher.py     # Repository operations
@@ -170,6 +178,7 @@ poetry run pytest -p no:cacheprovider
 ### 🚧 Upcoming Features
 
 #### Enum-Based Version System (High Priority)
+
 - **Status**: ✅ Completed
 - **Tasks**:
   - ✅ Create `VersionType` enum with clear version semantics
@@ -180,6 +189,7 @@ poetry run pytest -p no:cacheprovider
 - **Benefits**: Robust version management, better error handling, type safety
 
 #### Database Schema Improvements
+
 - **Status**: ✅ Completed
 - **Tasks**:
   - ✅ Make version field NOT NULL with proper default
@@ -188,7 +198,8 @@ poetry run pytest -p no:cacheprovider
   - ✅ Add database indexes for performance optimization (6 indexes added)
   - ✅ Add timestamp fields for created_at and updated_at
   - ✅ Add comprehensive test coverage for new functionality
-- **Benefits**: Data integrity, better query performance, enhanced version management, robust error handling
+- **Benefits**: Data integrity, better query performance, enhanced version
+management, robust error handling
 
 ### 🎯 Future Enhancements
 
@@ -205,7 +216,8 @@ poetry run pytest -p no:cacheprovider
 
 ## 📄 License
 
-This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the BSD 3-Clause License - see the
+[LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
@@ -257,20 +269,24 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICE
 #### REST API vs. Stdio Interface
 
 **Current Approach**: REST API with FastAPI
+
 - ✅ **Pros**: Web-standard, language-agnostic, easy to integrate
 - ❌ **Cons**: Network overhead, requires HTTP server
 
 **Alternative Approach**: Stdio-based interface
+
 - ✅ **Pros**: Direct integration, no network overhead, better for scripting
 - ❌ **Cons**: Language-specific, harder to integrate with web services
 
 **Use Cases for Stdio**:
+
 - CLI tool integration
 - Scripting and automation
 - Direct process communication
 - Embedded system usage
 
 **Implementation Considerations**:
+
 - Protocol design (JSON, protobuf, custom format)
 - Error handling and exit codes
 - Input/output streaming
