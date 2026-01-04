@@ -24,6 +24,7 @@ uvicorn = {extras = ["standard"], version = "^0.24.0"}
 gitpython = "^3.1.40"
 pydantic = "^2.5.0"
 pyyaml = "^6.0.1"
+pyrefly = "^0.46.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.0"

@@ -1687,7 +1687,7 @@ version = "0.46.3"
 description = "A fast type checker and language server for Python with powerful IDE features"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
+groups = ["main", "dev"]
 files = [
     {file = "pyrefly-0.46.3-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:5626d345aa829dc17311c77c8019dfc7b9b6dd8da102b66d943d47862af2be59"},
     {file = "pyrefly-0.46.3-py3-none-macosx_11_0_arm64.whl", hash = "sha256:13b553090ec9821a781198389564bcb3cb020679189272b1e88fddba9d613879"},
@@ -2724,4 +2724,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "238f46d58185ba3b5206c0af911301d7aab83f46c06898592643a5ae7c1b17fd"
+content-hash = "e59f423bdf0e15f810e0bfb2d1828b73fdc6b9f1c0f33d5d9f19ecff8481da8e"
