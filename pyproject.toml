@@ -1,5 +1,5 @@
 [project]
-name = "mcp-repocache"
+name = "mcp"
 version = "0.1.0"
 description = "MCP Repository Cache - Documentation aggregation and indexing system"
 authors = [
@@ -14,8 +14,8 @@ dynamic = ["dependencies"]
 [project.scripts]
 index-docs = "scripts.index_docs:main"
 run-server = "scripts.run_server:main"
-test = "pytest"
-test-cov = "pytest --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
+test = "pytest:main"
+test-cov = "pytest:main --cov=mcp --cov=scripts --cov-report=html --cov-report=term"
 
 [tool.poetry.dependencies]
 python = "^3.10"
