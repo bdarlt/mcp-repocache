@@ -7,7 +7,7 @@ import os
 app = FastAPI()
 
 @app.get("/docs", response_model=List[Document])
-def get_docs(repo: str = None):
+def get_docs(repo: str | None = None):
     # More robust path construction using multiple join steps
     db_path = os.path.join(
         os.path.dirname(__file__),
