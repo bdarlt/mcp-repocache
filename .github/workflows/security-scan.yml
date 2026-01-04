@@ -32,7 +32,7 @@ jobs:
       run: poetry run safety check --full-report --json > safety-results.json
 
     - name: Upload security scan results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: security-scan-results-${{ github.run_id }}
         path: |
@@ -52,7 +52,7 @@ jobs:
         echo "```" >> security-report.md
 
     - name: Upload security report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: security-report-${{ github.run_id }}
         path: security-report.md
