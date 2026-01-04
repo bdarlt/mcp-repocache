@@ -41,6 +41,7 @@ mypy = "^1.19.1"
 ruff = "^0.14.10"
 hypothesis = "^6.148.8"
 pytest-benchmark = "^5.2.3"
+pyrefly = "^0.46.3"
 
 [build-system]
 requires = ["poetry-core"]
@@ -62,6 +63,12 @@ markers = [
     "integration: Integration tests",
     "slow: Slow tests",
     "git: Tests that require git operations"
+]
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
 ]
 
 [tool.poetry.requires-plugins]
