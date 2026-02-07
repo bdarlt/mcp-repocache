@@ -1,5 +1,5 @@
 # Use the official Python 3.13.7 image on Alpine 3.22
-FROM python:3.13.7-alpine3.22
+FROM python:3.14.0-alpine3.22
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
