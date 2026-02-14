@@ -19,29 +19,29 @@ test-cov = "pytest:main --cov=mcp --cov=scripts --cov-report=html --cov-report=t
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.128.0"
-uvicorn = {extras = ["standard"], version = "^0.24.0"}
-gitpython = "^3.1.40"
+fastapi = "^0.129.0"
+uvicorn = {extras = ["standard"], version = "^0.40.0"}
+gitpython = "^3.1.46"
 pydantic = "^2.5.0"
 pyyaml = "^6.0.1"
-pyrefly = "^0.46.3"
+pyrefly = "^0.52.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.0"
-pytest-cov = "^4.1.0"
-pytest-asyncio = "^0.21.0"
+pytest-cov = "^7.0.0"
+pytest-asyncio = "^1.3.0"
 pytest-mock = "^3.12.0"
-black = "^25.10.0"
-flake8 = "^6.0.0"
-httpx = "^0.25.0"  # For FastAPI test client
+black = "^26.1.0"
+flake8 = "^7.3.0"
+httpx = "^0.28.1"  # For FastAPI test client
 pylint = "^4.0.4"
 safety = "^3.7.0"
-bandit = "^1.9.2"
+bandit = "^1.9.3"
 mypy = "^1.19.1"
-ruff = "^0.14.10"
-hypothesis = "^6.148.8"
+ruff = "^0.15.1"
+hypothesis = "^6.151.6"
 pytest-benchmark = "^5.2.3"
-pyrefly = "^0.46.3"
+pyrefly = "^0.52.0"
 
 [build-system]
 requires = ["poetry-core"]
